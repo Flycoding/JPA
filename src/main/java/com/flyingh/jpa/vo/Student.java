@@ -8,6 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -15,6 +18,7 @@ public class Student {
 	private int id;
 	private String name;
 	private Set<Book> books = new HashSet<Book>();
+	private Set<Teacher> teachers = new HashSet<Teacher>();
 
 	public Student() {
 	}
@@ -54,6 +58,19 @@ public class Student {
 	public void addBook(Book book) {
 		book.setStudent(this);
 		books.add(book);
+	}
+
+	@ManyToMany(cascade = CascadeType.REFRESH)
+	@JoinTable(name = "teacher_student", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+	public Set<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(Set<Teacher> teachers) {
+		for (final Teacher teacher : teachers) {
+			teacher.getStudents().add(this);
+		}
+		this.teachers = teachers;
 	}
 
 }
