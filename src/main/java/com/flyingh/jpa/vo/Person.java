@@ -3,6 +3,7 @@ package com.flyingh.jpa.vo;
 import java.util.Date;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -24,6 +26,7 @@ public class Person {
 	private String desc;
 	private byte[] file;
 	private String path;
+	private IdCard idCard;
 
 	public Person() {
 		super();
@@ -122,6 +125,16 @@ public class Person {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+	public IdCard getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(IdCard idCard) {
+		idCard.setPerson(this);
+		this.idCard = idCard;
 	}
 
 	@Override

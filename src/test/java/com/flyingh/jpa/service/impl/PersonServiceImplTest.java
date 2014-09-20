@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.flyingh.jpa.service.PersonService;
 import com.flyingh.jpa.vo.Gender;
+import com.flyingh.jpa.vo.IdCard;
 import com.flyingh.jpa.vo.Person;
 
 public class PersonServiceImplTest {
@@ -22,7 +23,9 @@ public class PersonServiceImplTest {
 
 	@Test
 	public void testAdd() {
-		personService.add(new Person("Flyingh", new Date(), Gender.MALE));
+		final Person person = new Person("Flyingh", new Date(), Gender.MALE);
+		person.setIdCard(new IdCard("abcde"));
+		personService.add(person);
 	}
 
 	@Test
